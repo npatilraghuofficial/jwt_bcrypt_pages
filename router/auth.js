@@ -7,8 +7,6 @@ const Order = require('../models/orderSchema');
 
 const router = express.Router();
 
-
-
 router.get('/', (req, res) => {
   console.log("server router");
   res.send('Hello from server router/auth');
@@ -40,7 +38,7 @@ router.post('/add-user', async (req, res) => {
   }
 });
 
-
+//login ap
 router.post('/login-user', async (req, res) => {
   console.log("login user");
     try {
@@ -53,7 +51,6 @@ router.post('/login-user', async (req, res) => {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
   
-      // Compare the provided password with the stored hashed password
 
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch) {
@@ -77,11 +74,10 @@ router.post('/add-order', async (req, res) => {
   try {
     const { userId, subTotal, phoneNumber }= req.body;
    
-    console.log(userId);
 
     // Verify the JWT token
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, "RAGHU");
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const { userId: decodedUserId } = decodedToken;
 
     // Check if the decoded user ID matches the provided user ID
@@ -117,19 +113,20 @@ function generateOrderId() {
 }
 
 
+//get order api
 
 router.get('/get-order', async (req, res) => {
   try {
     const { userId } = req.query;
+    console.log("redirected to get order");
 
     // Verify the JWT token
     const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, 'RAGHU');
+    const decodedToken = jwt.verify(token,process.env.JWT_SECRET);
     const { userId: decodedUserId } = decodedToken;
 
-    // Check if the decoded user ID matches the provided user ID
     if (userId !== decodedUserId) {
-      return res.status(403).json({ message: 'Forbidden' });
+      return res.status(403).json({ message: 'Forbidden,To view orders please order atleast once' });
     }
 
     const orders = await Order.find({ userId });

@@ -2,12 +2,20 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const path = require('path');
+
 require('dotenv').config();
 const cors = require('cors');
 
 const app = express();
 
+//static files
 app.use(cors());
+app.use(express.static(path.join(__dirname, './frontend/build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './frontend/build/index.html'));
+});
+
 
 
 app.use(express.json());
@@ -30,6 +38,6 @@ db.once('open', () => {
 app.use(require('./router/auth'));
 
 app.listen(PORT, () => {
-  console.log(`server is on port no ${PORT}`)
+  console.log(`server is on port no`)
 
 })
