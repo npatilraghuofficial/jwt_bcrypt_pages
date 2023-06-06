@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { MDBContainer, MDBInput, MDBBtn } from 'mdb-react-ui-kit';
 import { NavLink } from 'react-router-dom';
-import axios from 'axios';
+import Button from 'react-bootstrap/Button';
 
 function Register() {
+
   const [name, setUserName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
@@ -49,10 +50,16 @@ function Register() {
       })
       .then((data) => {
         console.log(data);
+        alert("User added successfully....Now please login");
         // Handle success response here
+       window.location.href = "/";
+
       })
       .catch((error) => {
         console.error(error);
+        alert("error...");
+        
+
         // Handle error response here
       });
 
@@ -72,7 +79,7 @@ function Register() {
       <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
         <MDBInput
           wrapperClass='mb-4'
-          label='User Name'
+          label=' Enter User Name'
           id='form1'
           type='text'
           value={name}
@@ -80,7 +87,7 @@ function Register() {
         />
         <MDBInput
           wrapperClass='mb-4'
-          label='Phone Number'
+          label='Enter Phone Number'
           id='form2'
           type='number'
           value={phoneNumber}
@@ -88,16 +95,16 @@ function Register() {
         />
         <MDBInput
           wrapperClass='mb-4'
-          label='Password'
+          label=' Enter Password'
           id='form3'
           type='password'
           value={password}
           onChange={handlePasswordChange}
         />
 
-        <MDBBtn className="mb-4" onClick={handleRegister}>
-          Register
-        </MDBBtn>
+       
+        <Button variant="outline-primary" onClick={handleRegister}>Register</Button>{' '}
+
         <p>
           Already a member? <NavLink to="/">Login here</NavLink>
         </p>
@@ -105,5 +112,6 @@ function Register() {
     </>
   );
 }
+
 
 export default Register;

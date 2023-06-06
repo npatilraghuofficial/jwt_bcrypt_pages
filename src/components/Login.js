@@ -11,6 +11,9 @@ from 'mdb-react-ui-kit';
 import 'bootstrap/dist/css/bootstrap.css';
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+
+
 
 
 
@@ -29,6 +32,8 @@ function Login() {
 
 
     const handleLogin = () => {
+
+
         const newUser = {
             phoneNumber,
             password
@@ -54,7 +59,11 @@ function Login() {
             })
             .then((data) => {
               console.log(data);
-              sessionStorage.setItem("phoneNuber",phoneNumber);
+              sessionStorage.setItem("phoneNumber",phoneNumber);
+              sessionStorage.setItem("token",data.token);
+              alert("User logged in successfully....");
+              window.location.href = "/orders";
+
             })
             .catch((error) => {
               console.error(error);
@@ -71,7 +80,7 @@ function Login() {
 
     <MDBInput
           wrapperClass='mb-4'
-          label='Phone Number'
+          label=' Enter Phone Number'
           id='form2'
           type='number'
           value={phoneNumber}
@@ -79,7 +88,7 @@ function Login() {
         />
         <MDBInput
           wrapperClass='mb-4'
-          label='Password'
+          label='Enter Password'
           id='form3'
           type='password'
           value={password}
@@ -89,8 +98,11 @@ function Login() {
 
       
 
-      <MDBBtn className="mb-4" onClick={handleLogin}>login</MDBBtn>
-      <p>Not a member? <a href="#!"><NavLink to="/register">Register here</NavLink></a></p>
+      <Button variant="outline-primary" onClick={handleLogin}>login</Button>{' '}
+      <a><NavLink to="/register">Register here</NavLink></a>{' '}
+
+
+
      
 
 

@@ -1,141 +1,106 @@
-import React from "react";
-import {
-  MDBBtn,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBCol,
-  MDBContainer,
-  MDBIcon,
-  MDBInput,
-  MDBRow,
-  MDBTypography,
-} from "mdb-react-ui-kit";
+import React, { useState } from 'react';
+
+
+import jwt_decode from 'jwt-decode';
+import { NavLink } from 'react-router-dom';
 
 
 
-export default function Orders() {
-return (
-<section className="h-100" style={{ backgroundColor: "#eee" }}>
-  <MDBContainer className="py-5 h-100">
-    <MDBRow className="justify-content-center align-items-center h-100">
-      <MDBCol md="10">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <MDBTypography tag="h3" className="fw-normal mb-0 text-black">
-            Shopping Cart
-          </MDBTypography>
-          <div>
+
+function ProductForm() {
+  const [productName, setProductName] = useState('');
+  const [subTotal, setSubTotal] = useState('');
+
+  const handleProductNameChange = (e) => {
+    setProductName(e.target.value);
+  };
+
+  const handleSubTotalChange = (e) => {
+    setSubTotal(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    
+    const phoneNumber = sessionStorage.getItem("phoneNumber");
+    const token = sessionStorage.getItem("token");
+  const decodedToken = jwt_decode(token);
+
+// Access the user ID from the decoded token
+const userId = decodedToken.userId;
+const userId_param = sessionStorage.setItem("userId_param",userId);
+
+console.log(userId);
+
+
+
+    const newProduct = {
+      userId,
+      phoneNumber,
+      subTotal
+    };
+
+    console.log('Product Price:', subTotal);
+    console.log('Phone Number:', phoneNumber);
+    console.log('User ID:', userId);
    
-          </div>
-        </div>
+    fetch('http://localhost:9000/add-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
 
-        <MDBCard className="rounded-3 mb-4">
-          <MDBCardBody className="p-4">
-            <MDBRow className="justify-content-between align-items-center">
-              <MDBCol md="2" lg="2" xl="2">
-                <MDBCardImage className="rounded-3" fluid
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                  alt="Smartphone" />
-              </MDBCol>
-              <MDBCol md="3" lg="3" xl="3">
-                <p className="lead fw-normal mb-2">Smart Phone</p>
-                <p>
-                  <span className="text-muted">Size: </span>M{" "}
-                  <span className="text-muted">Color: </span>Grey
-                </p>
-              </MDBCol>
-              <MDBCol md="3" lg="3" xl="2"
-                className="d-flex align-items-center justify-content-around">
-                <MDBBtn color="link" className="px-2">
-                  <MDBIcon fas icon="minus" />
-                </MDBBtn>
+      },
+      body: JSON.stringify(newProduct),
+    })
 
-                <MDBInput max={1} defaultValue={1} type="number" size="sm" />
+      .then((response) => {
+        if (response.ok) {
+          console.log("server routed to add order");
+          return response.json();
+        }
+        throw new Error('add order failed');
+      }
+      )
+      .then((data) => {
+        console.log(data);
+        alert("order placed successfully");
+        window.location.href = "/view-order";
+      }
+      )
+      .catch((error) => {
+        console.error(error);
+        // Handle error response here
+      }
+      );
 
-                <MDBBtn color="link" className="px-2">
-                  <MDBIcon fas icon="plus"color="warning" />
-                  <MDBTypography tag="h5" className="mb-0">
-                  INR 49999.00
-                </MDBTypography>
-                </MDBBtn>
-              </MDBCol>
-              <MDBCol md="3" lg="2" xl="2" className="offset-lg-1">
-                
-              </MDBCol>
-              <MDBBtn className="ms-3" color="warning" block size="lg">
-order now            </MDBBtn>
-              <MDBCol md="1" lg="1" xl="1" className="text-end">
-                <a href="#!" className="text-danger">
-                  <MDBIcon fas icon="trash text-danger" size="lg" />
-                </a>
-                
-              </MDBCol>
-              
-            </MDBRow>
-          </MDBCardBody>
-        </MDBCard>
+  };
 
-        
-        <MDBCard className="rounded-3 mb-4">
-          <MDBCardBody className="p-4">
-            <MDBRow className="justify-content-between align-items-center">
-              <MDBCol md="2" lg="2" xl="2">
-                <MDBCardImage className="rounded-3" fluid
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                  alt="Smartphone" />
-              </MDBCol>
-              <MDBCol md="3" lg="3" xl="3">
-                <p className="lead fw-normal mb-2">Smart Phone 2</p>
-                <p>
-                  <span className="text-muted">Size: </span>M{" "}
-                  <span className="text-muted">Color: </span>Grey
-                </p>
-              </MDBCol>
-              <MDBCol md="3" lg="3" xl="2"
-                className="d-flex align-items-center justify-content-around">
-                <MDBBtn color="link" className="px-2">
-                  <MDBIcon fas icon="minus" />
-                </MDBBtn>
-
-                <MDBInput max={1} defaultValue={1} type="number" size="sm" />
-
-                <MDBBtn color="link" className="px-2">
-                  <MDBIcon fas icon="plus"color="warning" />
-                  <MDBTypography tag="h5" className="mb-0">
-                  INR 59999.00
-                </MDBTypography>
-                </MDBBtn>
-              </MDBCol>
-              <MDBCol md="3" lg="2" xl="2" className="offset-lg-1">
-                
-              </MDBCol>
-              <MDBBtn  color="warning">
-order now            </MDBBtn>
-              <MDBCol md="1" lg="1" xl="1" className="text-end">
-                <a href="#!" className="text-danger">
-                  <MDBIcon fas icon="trash text-danger" size="lg" />
-                </a>
-                
-              </MDBCol>
-              
-            </MDBRow>
-          </MDBCardBody>
-        </MDBCard>
-
-       
-
-        
-
-        
-
-        <MDBCard>
-          <MDBCardBody>
-           
-          </MDBCardBody>
-        </MDBCard>
-      </MDBCol>
-    </MDBRow>
-  </MDBContainer>
-</section>
-);
+  return (
+    <form onSubmit={handleSubmit}>
+      <NavLink to="/view-order"><p>view My orders(To view orders please order atleast once )</p></NavLink>
+      <div>
+        <label htmlFor="productName">Product Name:</label>
+        <input
+          type="text"
+          id="productName"
+          value={productName}
+          onChange={handleProductNameChange}
+        />
+      </div>
+      <div>
+        <label htmlFor="subTotal">Product Price:</label>
+        <input
+          type="number"
+          id="subTotal"
+          value={subTotal}
+          onChange={handleSubTotalChange}
+        />
+      </div>
+      <button type="submit">order-now</button>
+    </form>
+  );
 }
+
+export default ProductForm;
