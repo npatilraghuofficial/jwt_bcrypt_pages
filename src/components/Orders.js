@@ -42,7 +42,7 @@ const userId_param = sessionStorage.setItem("userId_param",userId);
 
    
    
-    fetch('https://jwt-bcrypt-authetication-deployment.onrender.com//add-order', {
+    fetch('https://jwt-bcrypt-authetication-deployment.onrender.com/add-order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

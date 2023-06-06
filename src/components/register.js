@@ -31,7 +31,7 @@ function Register() {
   
     alert("server routing to add user");
 
-    const data = fetch('https://jwt-bcrypt-authetication-deployment.onrender.com//add-user', {
+    const data = fetch('https://jwt-bcrypt-authetication-deployment.onrender.com/add-user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
