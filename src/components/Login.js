@@ -39,11 +39,10 @@ function Login() {
             password
           };
 
-        console.log('Phone Number:', phoneNumber);
-        console.log('Password:', password);
+        
 
         alert("server routing to login user");
-        const data = fetch('http://localhost:9000/login-user', {
+        const data = fetch('https://jwt-bcrypt-authetication-deployment.onrender.com/login-user', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -58,7 +57,6 @@ function Login() {
               throw new Error('login failed');
             })
             .then((data) => {
-              console.log(data);
               sessionStorage.setItem("phoneNumber",phoneNumber);
               sessionStorage.setItem("token",data.token);
               alert("User logged in successfully....");
@@ -67,7 +65,6 @@ function Login() {
             })
             .catch((error) => {
               console.error(error);
-              // Handle error response here
             });
 
 

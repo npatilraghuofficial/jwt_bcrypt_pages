@@ -5,16 +5,14 @@ function ViewOrders() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    // Define the query parameters
     const params = {
-      // Add your query parameters here
       userId: sessionStorage.getItem("userId_param")
       
     };
   
     const token = sessionStorage.getItem('token');
   
-    const url = new URL('http://localhost:9000/get-order');
+    const url = new URL('https://jwt-bcrypt-authetication-deployment.onrender.com/get-order');
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
   
     // Fetch orders from the server with query parameters and authorization token

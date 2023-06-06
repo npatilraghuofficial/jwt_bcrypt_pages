@@ -22,19 +22,16 @@ function Register() {
   };
 
   const handleRegister = () => {
-    // Perform register logic here using the captured input values
     const newUser = {
         name,
         phoneNumber,
         password
       };
 
-    console.log('name:', name);
-    console.log('Phone Number:', phoneNumber);
-    console.log('Password:', password);
+  
     alert("server routing to add user");
 
-    const data = fetch('http://localhost:9000/add-user', {
+    const data = fetch('https://jwt-bcrypt-authetication-deployment.onrender.com//add-user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -49,9 +46,7 @@ function Register() {
         throw new Error('Registration failed');
       })
       .then((data) => {
-        console.log(data);
         alert("User added successfully....Now please login");
-        // Handle success response here
        window.location.href = "/";
 
       })
@@ -60,7 +55,6 @@ function Register() {
         alert("error...");
         
 
-        // Handle error response here
       });
 
 

@@ -31,7 +31,6 @@ function ProductForm() {
 const userId = decodedToken.userId;
 const userId_param = sessionStorage.setItem("userId_param",userId);
 
-console.log(userId);
 
 
 
@@ -41,11 +40,9 @@ console.log(userId);
       subTotal
     };
 
-    console.log('Product Price:', subTotal);
-    console.log('Phone Number:', phoneNumber);
-    console.log('User ID:', userId);
    
-    fetch('http://localhost:9000/add-order', {
+   
+    fetch('https://jwt-bcrypt-authetication-deployment.onrender.com//add-order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -64,14 +61,12 @@ console.log(userId);
       }
       )
       .then((data) => {
-        console.log(data);
         alert("order placed successfully");
         window.location.href = "/view-order";
       }
       )
       .catch((error) => {
         console.error(error);
-        // Handle error response here
       }
       );
 
