@@ -38,7 +38,7 @@ router.post('/add-user', async (req, res) => {
   }
 });
 
-//login ap
+//login apI
 router.post('/login-user', async (req, res) => {
   console.log("login user");
     try {
